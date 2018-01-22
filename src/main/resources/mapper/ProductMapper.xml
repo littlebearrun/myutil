@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.likang.myutil.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.likang.myutil.bean.Product" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, description
+  </sql>
+  <insert id="insert" parameterType="com.likang.myutil.bean.Product" >
+    insert into product (id, name, description, create_time)
+    values (#{id}, #{name}, #{description}, #{createTime})
+  </insert>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id}
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.likang.myutil.bean.Product" >
+    update product
+    <set >
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="description != null" >
+        description = #{description},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id}
+  </delete>
+  
+  
+   <insert id ="insertBatch" parameterType="java.util.List" >
+       insert into product(name, description, create_time)
+       values
+       <foreach collection ="list" item="item" index= "index" separator =",">
+           (#{item.name}, #{item.description}, now())
+       </foreach >
+   </insert >
+  
+    <update id="updateBatch"> 
+	  	<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	  	 update product 
+	  	
+	  		set name=#{item.name}, create_time=now()
+	  	 where id=#{item.id}    
+	  	</foreach>
+  	</update>
+  
+</mapper>
