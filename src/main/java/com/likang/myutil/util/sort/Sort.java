@@ -1,5 +1,7 @@
 package com.likang.myutil.util.sort;
 
+import java.util.Queue;
+
 /*
 排序法	   丨	最差时间分析	    丨	平均时间复杂度	丨	稳定度	丨  空间复杂度
 冒泡排序	   丨		O(n2)	    丨		O(n2)		丨	稳定		丨	O(1)
@@ -20,7 +22,7 @@ public class Sort {
 	 */
 	static int [] bubbleSort(int arr[]){
 		for(int i=0;i<arr.length-1;i++){//
-			for(int j=0;j<arr.length-1-i;j++){//
+			for(int j=0;j<arr.length-i-1;j++){//
 				if(arr[j]>arr[j+1]){
 					int temp=arr[j];
 					arr[j]=arr[j+1];
